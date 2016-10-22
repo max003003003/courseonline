@@ -7,6 +7,7 @@ class ProfileController {
          this.aboutMe=''
          this.photo=''
          this.courses=[]
+         this.isInstructor = false
 
         this.profile$ =  Observable.combineLatest(
              $me.getProfile(),
@@ -16,11 +17,20 @@ class ProfileController {
                 ([profile,courses]) => {
                    this.name=profile.name
                    this.aboutMe=profile.aboutMe  
+                   this.isInstructor=profile.isInstructor
                    this.photo = profile.photo 
                    this.courses = courses
                          
                 }
-            )          
+            )   
+
+            // $me.course()
+            //     .subscribe(
+            //         (course) => {
+            //             console.log(course)
+            //         }
+            //     )
+
  
     }   
     $onDestroy(){

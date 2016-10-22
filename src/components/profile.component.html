@@ -3,7 +3,7 @@
     <label><h1> Name :  {{ $ctrl.name }}   </h1></label>               
     <label><h1> AboutMe  : {{ $ctrl.aboutMe }}  </h1></label> 
     <div ui-sref="edit-profile" class="ui green button">Edit</div>
-    <a ui-sref="course-create" class="ui blue button"> Create Course</a>
+    <a ui-sref="course-create" ng-if="$ctrl.isInstructor" class="ui blue button"> Create Course</a>
     
 </div>
 <div class="ui segment">

@@ -7,10 +7,35 @@ export class FirebaseService {
         'ngInject'
     
         this.$q = $q
-    this.$rootScope = $rootScope
+        this.$rootScope = $rootScope
         this._currentUser = new BehaviorSubject()
+        
+        let $currentUser
+  
 
-        firebase.auth().onAuthStateChanged((user) => {            
+        firebase.database().ref('.info/connected').on('value', (snapshot) => {
+            const connect = snapshot.val()
+            if($currentUser){
+                $currentUser.unsubscribe()
+                $currentUser=null
+            }
+            if( connect ) {
+                const onlineRef  = firebase.database().ref('online').push()
+                onlineRef.onDisconnect().remove()
+                onlineRef.set(true)
+                $currentUser = this.currentUser()
+                    .subscribe(
+                        (user) =>{
+                            if(user){
+                                onlineRef.set(user.uid)
+                            }
+                        }
+                    )
+               
+            }
+        })
+
+        firebase.auth().onAuthStateChanged((user) => { 
             this._currentUser.next(user)
         })       
     }
